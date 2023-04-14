@@ -28,6 +28,8 @@ public class HomeController {
 	// 첫 화면 (유저의 이름 입력하여 프로그램 시작하기)
 	@RequestMapping("chatApp")
 	public void chatApp(HttpSession session) {
+		// mybatis seminar test method
+//		service.ChooseWhen();
 	}
 	
 	@GetMapping("roomList")

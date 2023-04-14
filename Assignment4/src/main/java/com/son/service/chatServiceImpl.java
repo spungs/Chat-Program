@@ -1,20 +1,21 @@
 package com.son.service;
 
-import com.son.repository.chatDao;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.son.repository.chatDao;
 
-@Configuration
+import dto.UserDTO;
+
+//@Configuration
 @ComponentScan
 @Service
 public class chatServiceImpl implements chatService {
-    @Autowired
-    chatDao dao;
+    @Autowired chatDao dao;
 
     private String nonOverlapString = "";
     private char[] nonOverlapCharArr = null;
@@ -22,6 +23,62 @@ public class chatServiceImpl implements chatService {
     private ArrayList<String> alphabetArr = new ArrayList<>();
     // encodeArr 5x5 2차원 배열
     private String[][] encodeArr = new String[5][5];
+    
+    //test method
+    public void ChooseWhen() {
+    	System.out.println("chooseWhen 메서드 실행");
+    	String deptment = "qqqq";
+    	String name = "권지영";
+    	int test_score = 70;
+//    	ArrayList<UserDTO> list = dao.roomListAll(deptment);
+    	ArrayList<UserDTO> list = dao.roomListAll(deptment, name, test_score);
+//    	ArrayList<UserDTO> list = dao.roomListAll(null, name, test_score);
+//    	ArrayList<UserDTO> list = dao.roomListAll(deptment, name, null);
+//    	for (int i = 0; i < list.size(); i ++) {
+//    		UserDTO user =  list.get(i);
+//    		System.out.println(user.getDeptment());
+//    		System.out.println(user.getName());
+//    		System.out.println(user.getGpa());
+//    		System.out.println(user.getInterview_score());
+//    		System.out.println(user.getTest_score());
+//    		System.out.println(user.getDpa_yn());
+//    		System.out.println(user.getPass_yn());
+//    		System.out.println(user.getFail_reason());
+//    		System.out.println("--------------------------");
+//    	}
+    	//====================
+    	UserDTO user = new UserDTO();
+    	user.setDeptment("qqqq");
+    	user.setGpa(0);
+    	user.setName("권지영");
+    	dao.updateYN(user);
+    	
+    	//==================== 권지영 정대현 김희배 박서영
+    	String u1 = "권지영";
+    	String u2 = "정대현";
+    	String u3 = "김희배";
+    	String u4 = "박서영";
+    	String[] users = {u1, u2, u3, u4};
+//    	String[] users = {};
+//    	for (int i = 0; i < users.length; i++) {
+//    		System.out.println("name : " + users[i]);
+//    	}
+    	
+    	ArrayList<UserDTO> userss = dao.selectUser(users);
+    	for (int i = 0; i < userss.size(); i ++) {
+    		UserDTO usersss =  userss.get(i);
+    		System.out.println(usersss.getDeptment());
+    		System.out.println(usersss.getName());
+    		System.out.println(usersss.getGpa());
+    		System.out.println(usersss.getInterview_score());
+    		System.out.println(usersss.getTest_score());
+    		System.out.println(usersss.getDpa_yn());
+    		System.out.println(usersss.getPass_yn());
+    		System.out.println(usersss.getFail_reason());
+    		System.out.println("--------------------------" + i);
+    	}
+    	
+    }
 
     // 생성자에서 encode 배열을 만듬
     public chatServiceImpl(@Value("${encode.key}") String encodeKey) {

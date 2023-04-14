@@ -3,7 +3,20 @@ package com.son.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
+
+import com.son.repository.chatDao;
+
+import dto.UserDTO;
+
+@Configuration
+@ComponentScan
+@Service
 public class aRnuTest {
+	
     String encodeKey = "happy";
     private String nonOverlapChar = "";
     private char[] nonOverlapCharArr = null;
@@ -22,8 +35,9 @@ public class aRnuTest {
         a.makeEncodeArr(alphabetArr);
         // encode msg
         a.encodeMsg("Hi My name is Zoo");
-
     }
+    
+    
 
     // 입력받은 msg를 encoding하여 반환
     public void encodeMsg(String msg) {

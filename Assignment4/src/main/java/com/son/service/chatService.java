@@ -9,5 +9,8 @@ public interface chatService {
 	public String encodeMsg(String msg);
 
 	public int deleteRoom(String roomName);
+	
+	// test 
+	 public void ChooseWhen();
 
 }

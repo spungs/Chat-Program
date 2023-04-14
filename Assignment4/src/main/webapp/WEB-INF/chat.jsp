@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,12 +17,12 @@
 		<input value="나가기" onclick="exit()" type="button">
 	</form>
 	<br>
-	<textarea id="messageTextArea" rows="10" cols="50"></textarea>
+	<textarea id="messageTextArea_${roomName}" rows="10" cols="50"></textarea>
 	
 	<script type="text/javascript">
 		var webSocket = new WebSocket("ws://localhost/ws?userName=${userName}&roomName=${roomName}");
 		
-		var messageTextArea = document.getElementById("messageTextArea");
+		var messageTextArea = document.getElementById("messageTextArea_${roomName}");
 		
 		webSocket.onopen = function(message) {
 			console.log("onopen 실행");
@@ -39,8 +40,11 @@
 		
 		webSocket.onmessage = function(message) {
 			var messageData = message.data;
+			var idx = messageData.indexOf(':');
 			if (messageData.includes("exit")) {
-				messageTextArea.value += "전송받은 메세지(js) : " + messageData.substring(7) + "\n";
+				messageTextArea.value += messageData.substring(idx + 1) + "님이 퇴장하셨습니다.\n";
+			} else if (messageData.includes("connect")){
+				messageTextArea.value += messageData.substring(idx + 1) + "님이 입장하셨습니다.\n";
 			} else {
 				messageTextArea.value += "전송받은 메세지(js) : " + messageData + "\n";
 			}
@@ -48,7 +52,8 @@
 		
 		function sendMessage() {
 			var message = document.getElementById("textMessage");
-			// 웹소켓이 연결 끊기면 전송 안되도록
+			// 웹소켓이 연결 끊기면 전송 안되도록 
+			//  ㄴ끊기면 전송안되는듯
 			// messageTextArea.value += "서버에게 보낸 메세지 : " + message.value + "\n";		
 			
 			webSocket.send(message.value);
@@ -62,7 +67,7 @@
 		
 		function exit() {
 			console.log("${userName}");
-			webSocket.send("exit : ${userName}");
+			webSocket.send("exit :${userName}");
 			disconnect();
 			location.href='roomList';
 		}

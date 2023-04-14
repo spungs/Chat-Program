@@ -1,6 +1,5 @@
 package com.son.service;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +26,7 @@ public class WebSocket {
 	
 	// WebSocket Class는 client가 접속할 때마다 생성되어 client와 직접 통신하는 클래스이다.
 	// 따라서 new client가 접속할 때마다 client의 세션 관련 정보를 정적형으로 저장하여 1:N의 통신이 가능하도록 만들어야 한다.
-	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
+	private Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
 
 	@OnOpen
 	public void handleOpen(Session s, EndpointConfig config) throws Exception {
@@ -42,7 +41,7 @@ public class WebSocket {
 				
 				for (Session sessions : clients) {
 					System.out.println("clients : " + sessions.getId());
-					sessions.getBasicRemote().sendText(userName);
+					sessions.getBasicRemote().sendText("connect :" + userName);
 				}
 			}
 		}
