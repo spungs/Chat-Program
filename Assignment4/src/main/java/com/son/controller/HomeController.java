@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.Soundbank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,6 +35,7 @@ public class HomeController {
 	@GetMapping("roomList")
 	public String roomList(Model model, RedirectAttributes ra, HttpServletRequest req, 
 							String isDelete, String roomName) {
+		System.out.println("roomList getMapping");
 		HttpSession session= req.getSession();
 		String isSession = (String) session.getAttribute("userName");
 		
@@ -55,7 +56,7 @@ public class HomeController {
 	@PostMapping("roomList")
 	public String roomList(RedirectAttributes ra, Model model, HttpServletRequest req, 
 							String userName, String roomName, String isDelete) {
-		
+		System.out.println("roomList postMapping");
 		HttpSession session= req.getSession();
 		session.setAttribute("userName", userName);
 		
@@ -87,11 +88,18 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping("addList")
+	@RequestMapping(value = "addList", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	public Map<String, String> addRoom(@RequestBody String roomName) {
+	public Map<String, String> addRoom(@RequestBody Map<String, String> JsonReqData) {
+		String roomName = JsonReqData.get("roomName");
+		String userName = JsonReqData.get("userName");
+		// test print
+		System.out.println("roomName : " + roomName);
+		System.out.println("userName : " + userName);
+		
 		Map<String, String> roomInfoMap = new HashMap<>();
-		String checkAdd = Integer.toString(service.addList(roomName));
+		
+		String checkAdd = Integer.toString(service.addList(roomName, userName));
 		roomInfoMap.put("roomName", roomName);
 		roomInfoMap.put("checkAdd", checkAdd);
 
@@ -101,9 +109,10 @@ public class HomeController {
 	@RequestMapping("deleteRoom")
 	public String deleteRoom(RedirectAttributes ra, String userName, String roomName) {
 		// test print
-//		System.out.println("roomName : " + roomName);
+		System.out.println("roomName : " + roomName);
+		System.out.println("userName : " + userName);
 		
-		int result = service.deleteRoom(roomName);
+		int result = service.deleteRoom(roomName, userName);
 		
 		/* 지워도 될거 같음(80%)
 //		ra.addAttribute("userName", userName);	// session을 대체함

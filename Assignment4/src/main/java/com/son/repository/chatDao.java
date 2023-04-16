@@ -16,11 +16,11 @@ public interface chatDao {
 
 	public String[] getRoomList();
 
-	public void insertNewRoom(String roomName);
+	public void insertNewRoom(String roomName, String owner);
 
 	public String isRoom(String roomName);
 
-	public int deleteRoom(String roomName);
+	public int deleteRoom(String roomName, String owner);
 
 	// mabatis seminar test
 	public ArrayList<UserDTO> roomListAll(

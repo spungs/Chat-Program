@@ -102,19 +102,20 @@ public class chatServiceImpl implements chatService {
     }
 
     @Override
-    public int addList(String roomName) {
+    public int addList(String roomName, String owner) {
     	// 존재하면 name, 없으면 null
+    	System.out.println(roomName);
     	String isRoom = dao.isRoom(roomName);
     	if (isRoom == null) {
-    		dao.insertNewRoom(roomName);
+    		dao.insertNewRoom(roomName, owner);
     		return 1;
     	}
     	return 0;
     }
     
     @Override
-	public int deleteRoom(String roomName) {
-    	int result = dao.deleteRoom(roomName);
+	public int deleteRoom(String roomName, String owner) {
+    	int result = dao.deleteRoom(roomName, owner);
     	if (result != 0) {
     		return result;
     	} else {

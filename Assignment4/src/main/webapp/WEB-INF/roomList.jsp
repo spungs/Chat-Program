@@ -10,24 +10,24 @@
 	// msg가 있다면 메세지 창 띄우기
 	var msg = '${msg}';
 	if (msg != 0) {
-		alert('${roomName}이/가 삭제되었습니다.');
+		alert("${roomName}이/가 삭제되었습니다.");
 	}
-	
 	// GET 파라미터 제거 후 새로고침 
 	history.replaceState({}, null, location.pathname);
 	
 	function newRoom() {
 		var roomNameObj = document.getElementById('roomName');
+		var userName = document.getElementById('userName');
 		var roomNameValue = roomNameObj.value.replace(/\s+/g, '');
 		if (roomNameValue == ''){ // 입력한게 없으면 return
 			roomNameObj.value = '';
 			return;
 		}
-		addRoom(roomNameObj);
+		addRoom(roomNameObj, userName);
 		location.reload();
 	}
 	
-	function addRoom(roomNameObj) {
+	function addRoom(roomNameObj, userName) {
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) {
@@ -42,8 +42,15 @@
 			}
 		}
 		req.open('post', 'addList');
-		var reqData = roomNameObj.value;
-		req.send(reqData);
+		
+		var reqData = {
+				"roomName" : roomNameObj.value,
+				"userName" : userName.value
+		};
+		var JsonReqData = JSON.stringify(reqData);
+// 		console.log(JsonReqData);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.send(JsonReqData);
 	}
 	
 	function selectRoom(e) {
