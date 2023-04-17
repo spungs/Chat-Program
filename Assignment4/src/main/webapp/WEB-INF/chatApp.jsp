@@ -19,6 +19,8 @@
 	if (msg != 0) {
 		alert('${msg}');
 	}
+	// GET 파라미터 제거 후 새로고침 
+	history.replaceState({}, null, "chatApp");
 	
 	const inputUserName = document.getElementById('userName');
 	const submitBtn = document.querySelector("input[type='submit']");

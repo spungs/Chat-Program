@@ -27,7 +27,7 @@
 		webSocket.onopen = function(message) {
 			console.log("onopen 실행");
 			console.log(message);
-			messageTextArea.value += "${userName}님이 접속하였습니다..\n";
+// 			messageTextArea.value += "${userName}님이 접속하였습니다..\n";
 		};
 		
 		webSocket.onclose = function(message) {
@@ -39,14 +39,17 @@
 		};
 		
 		webSocket.onmessage = function(message) {
-			var messageData = message.data;
-			var idx = messageData.indexOf(':');
-			if (messageData.includes("exit")) {
-				messageTextArea.value += messageData.substring(idx + 1) + "님이 퇴장하셨습니다.\n";
-			} else if (messageData.includes("connect")){
-				messageTextArea.value += messageData.substring(idx + 1) + "님이 입장하셨습니다.\n";
-			} else {
-				messageTextArea.value += "전송받은 메세지(js) : " + messageData + "\n";
+			var msgData = message.data;
+			var idx = msgData.indexOf(':');
+			console.log("idx : " + idx);	
+			console.log("msg : "+msgData);
+			if (msgData.includes("exit ${roomName}")) {
+				messageTextArea.value += msgData.substring(idx + 1) + "님이 퇴장하셨습니다.\n";
+			} else if (msgData.includes("connect")){
+				messageTextArea.value += msgData.substring(idx + 1) + "님이 입장하셨습니다.\n";
+			} else if (msgData.includes("msg")) {
+				var index = msgData.indexOf(';');
+				messageTextArea.value += "전송받은 메세지(js) : " + msgData.substring(index + 1) + "\n";
 			}
 		};
 		
@@ -67,7 +70,7 @@
 		
 		function exit() {
 			console.log("${userName}");
-			webSocket.send("exit :${userName}");
+			webSocket.send("exit ${roomName}:${userName}");
 			disconnect();
 			location.href='roomList';
 		}

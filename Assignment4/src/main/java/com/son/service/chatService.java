@@ -10,7 +10,7 @@ public interface chatService {
 
 	public String encodeMsg(String msg);
 	
-	// test 
-	 public void ChooseWhen();
+	// test for mabatis seminar
+//	 public void ChooseWhen();
 
 }

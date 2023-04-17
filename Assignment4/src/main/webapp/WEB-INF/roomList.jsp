@@ -13,7 +13,7 @@
 		alert("${roomName}이/가 삭제되었습니다.");
 	}
 	// GET 파라미터 제거 후 새로고침 
-	history.replaceState({}, null, location.pathname);
+	history.replaceState({}, null, "roomList");
 	
 	function newRoom() {
 		var roomNameObj = document.getElementById('roomName');

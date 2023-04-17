@@ -23,6 +23,7 @@ public class aRnuTest {
     private static ArrayList<String> alphabetArr = new ArrayList<>();
     private String[][] encodeArr = new String[5][5];
 
+    /*
     public static void main(String[] args) {
         aRnuTest a = new aRnuTest();
 
@@ -36,6 +37,7 @@ public class aRnuTest {
         // encode msg
         a.encodeMsg("Hi My name is Zoo");
     }
+    */
     
     
 

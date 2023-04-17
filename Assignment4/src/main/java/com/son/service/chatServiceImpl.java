@@ -24,6 +24,7 @@ public class chatServiceImpl implements chatService {
     // encodeArr 5x5 2차원 배열
     private String[][] encodeArr = new String[5][5];
     
+    /*
     //test method
     public void ChooseWhen() {
     	System.out.println("chooseWhen 메서드 실행");
@@ -79,6 +80,7 @@ public class chatServiceImpl implements chatService {
     	}
     	
     }
+    */
 
     // 생성자에서 encode 배열을 만듬
     public chatServiceImpl(@Value("${encode.key}") String encodeKey) {

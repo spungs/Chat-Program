@@ -28,8 +28,9 @@ public class HomeController {
 	// 첫 화면 (유저의 이름 입력하여 프로그램 시작하기)
 	@RequestMapping("chatApp")
 	public void chatApp(HttpSession session) {
-		// mybatis seminar test method
+		// test method for mybatis seminar
 //		service.ChooseWhen();
+		session.invalidate();
 	}
 	
 	@GetMapping("roomList")
@@ -80,7 +81,17 @@ public class HomeController {
 	}
 
 	@RequestMapping("chat")
-	public ModelAndView chat(String userName, String roomName) {
+	public ModelAndView chat(String userName, String roomName, 
+							RedirectAttributes ra, HttpServletRequest req) {
+		HttpSession session= req.getSession();
+		String isSession = (String) session.getAttribute("userName");
+		
+		if (isSession == null) {
+			ModelAndView mv = new ModelAndView("chatApp");
+			mv.addObject("msg", "사용자를 입력하세요.");
+			return mv;
+		}
+		
 		ModelAndView mv = new ModelAndView("chat"); // mv.setViewName("chat");
 		mv.addObject("userName", userName);
 		mv.addObject("roomName", roomName);
