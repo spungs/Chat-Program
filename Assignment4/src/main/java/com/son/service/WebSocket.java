@@ -95,9 +95,9 @@ public class WebSocket {
 	public void handleMessage(Session s, String msg) throws Exception {
 		String roomName = getRoomNameFromWebSocketUrl(s.getRequestURI().getQuery());
 		String userName = (String) s.getUserProperties().get("userName");
-		System.err.println(userName + "님에게 받은 메세지 : " + msg);
+		System.out.println(userName + "님에게 받은 메세지 : " + msg);
 		boolean userOut = msg.contains("exit");
-		System.err.println("msg.length() : " + msg.length());
+		System.out.println("msg.length() : " + msg.length());
 		if (!userOut) {
 			// msg encoding test(ok)
 			msg = chatService.encodeMsg(msg);
