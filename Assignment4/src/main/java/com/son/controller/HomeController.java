@@ -105,8 +105,8 @@ public class HomeController {
 		String roomName = JsonReqData.get("roomName");
 		String userName = JsonReqData.get("userName");
 		// test print
-		System.out.println("roomName : " + roomName);
-		System.out.println("userName : " + userName);
+//		System.out.println("roomName : " + roomName);
+//		System.out.println("userName : " + userName);
 		
 		Map<String, String> roomInfoMap = new HashMap<>();
 		

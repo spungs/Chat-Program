@@ -113,8 +113,8 @@ public class WebSocket {
 			String clientName = (String) clients.getUserProperties().get("userName");
 			System.out.println("클라이언트 이름 : "+clientName);
 			if (roomName.equals(clientsMap.get(clientName))) {
-				System.out.println("send to clients : " + msg);
-				clients.getBasicRemote().sendText("msg;" + msg);
+				System.out.println("send to clients : user:" + userName + ", " + msg);
+				clients.getBasicRemote().sendText("msg;" + userName + ":" + msg);
 			}
 		}
 		

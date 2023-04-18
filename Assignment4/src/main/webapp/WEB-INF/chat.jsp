@@ -7,144 +7,204 @@
 <meta charset="UTF-8">
 <title>chat Page</title>
 <style type="text/css">
-/*
-.message-wrapper {
+body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+}
+
+.title {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.message {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.balloon {
-  background-image: url("balloon.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: right bottom;
-  padding: 10px 15px;
-  border-radius: 20px;
-  display: inline-block;
-}
-
-#textMessage {
-  height: 50px;
-  width: 100%;
-  max-width: 80%;
-  padding: 10px;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 10px;
-  resize: none;
-}
-*/
 .chat-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 10px;
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+	width: 500px;
+	padding: 10px;
+	align-items: flex-end;
+	background: #D3D3D3;
 }
 
 .chat {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 500px;
+	overflow-y: auto;
+}
+
+.title {
+	width: 500px;
+ 	display: flex;
+ 	justify-content: center;
 }
 
 .message {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	margin-bottom: 10px;
 }
 
+/* right class 우측 정렬 */
+.message.right {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+
+/* left class 좌측 정렬 */
+.message.left {
+	align-self: flex-start;
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 10px;
+	max-width: 60%;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	font-size: 12px;
+}
+
+
 .bubble {
-  padding: 10px;
-  border-radius: 20px;
+	padding: 10px;
+	border-radius: 20px;
 }
 
 .left .bubble {
-  background-color: #f1f0f0;
+	background-color: white;
 }
 
 .right .bubble {
-  background-color: #cef2ff;
+	background-color: #cef2ff;
+}
+
+.center .bubble {
+	background-color: #D3D3D3;
+	padding: 10px;
+	border-radius: 20px;
+	font-size: 12px;
 }
 
 .left .time {
-  margin-left: 10px;
-  font-size: 12px;
+	margin-left: 10px;
+	font-size: 12px;
 }
 
 .right .time {
-  margin-right: 10px;
-  font-size: 12px;
+	margin-right: 10px;
+	font-size: 12px;
 }
 
 .text {
-  display: block;
-  white-space: pre-wrap;
-  word-break: break-all;
-  line-height: 1.5;
-  max-width: 200px;
+	display: block;
+	white-space: pre-wrap;
+	word-break: break-all;
+	line-height: 1.5;
+	max-width: 200px;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+  margin-top: 10px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  margin-right: 10px;
+}
+
+.form-control {
+  flex: 1;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid gray;
+  margin-right: 10px;
+}
+
+.submitBtn {
+  border: none;
+  border-radius: 5px;
+  background-color: #cef2ff;
+  color: #333;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background-color: #a3e1ff;
+}
+
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.exitBtn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+      position: absolute;
+    right: 0;
+}
 </style>
 </head>
 <body>
-
-<div class="chat-wrapper">
-  <div class="chat">
-    <div class="message left">
-      <div class="bubble">
-        <span class="text">상대방이 보낸 메세지</span>
-      </div>
-      <span class="time">오전 11:30</span>
-    </div>
-    <div class="message right">
-      <div class="bubble">
-        <span class="text">내가 보낸 메세지</span>
-      </div>
-      <span class="time">오후 1:20</span>
-    </div>
-    <div class="message left">
-      <div class="bubble">
-        <span class="text">상대방이 보낸 메세지</span>
-      </div>
-      <span class="time">오후 2:00</span>
-    </div>
-    <div class="message right">
-      <div class="bubble">
-        <span class="text">내가 보낸 메세지</span>
-      </div>
-      <span class="time">오후 3:15</span>
-    </div>
-  </div>
-</div>
-
-	
-	<div class="wrapper">
-		<form>
-			<!-- 송신 메세지를 작성하는 텍스트 박스 -->
-			<input id="textMessage" type="text" placeholder="Enter a message">
-			<!-- 메세지 송신을 하는 버튼 -->
-			<input value="전송" onclick="sendMessage()" type="button">
-			<!-- webSocket 접속 종료하는 버튼 -->
-			<input value="나가기" onclick="exit()" type="button">
-		</form>
-		<br>
-		<textarea id="messageTextArea" rows="10" cols="50"></textarea>
+	<div class="header-wrapper">
+	  <div class="title">${roomName}</div>
+	  <button class="exitBtn" onclick="exit()" type="button">나가기</button>
 	</div>
-	
+
+	<div class="chat-wrapper">
+	  <div id="chat-content" class="chat">
+	  </div>
+	</div>
+
+	<div class="wrapper">
+	  <form>
+	    <div class="input-group">
+	      <input id="sendMsg" type="text" class="form-control">
+	      <div class="input-group-append">
+	        <button class="submitBtn" onclick="sendMessage()" type="button">전송</button>
+	      </div>
+	    </div>
+	  </form>
+	</div>
 	
 	<script type="text/javascript">
 		var webSocket = new WebSocket("ws://localhost/ws?userName=${userName}&roomName=${roomName}");
+		var chatContent = document.getElementById("chat-content");
 		
-		var messageTextArea = document.getElementById("messageTextArea");
+		// chat 클래스 요소에 노드가 추가될 때마다 이벤트 발생
+		chatContent.addEventListener("DOMNodeInserted", function(event) { 
+			// 스크롤을 하단으로 내려줌
+			chatContent.scrollTop = chatContent.scrollHeight; 
+		});
 		
 		webSocket.onopen = function(message) {
 // 			console.log("onopen 실행");
@@ -166,17 +226,42 @@
 // 			console.log("idx : " + idx);	
 // 			console.log("msg : "+msgData);
 			if (msgData.includes("exit ${roomName}")) {
-				messageTextArea.value += msgData.substring(idx + 1) + "님이 퇴장하셨습니다.\n";
+				chatContent.innerHTML += "<div class=\"message center\">"
+			      						+ 	"<div class=\"bubble\">"
+		        						+ 		"<span class=\"text\">" + msgData.substring(idx + 1) + "님이 퇴장하셨습니다.</span>"
+		     							+ 	"</div>"
+		    							+ "</div>";
 			} else if (msgData.includes("connect")){
-				messageTextArea.value += msgData.substring(idx + 1) + "님이 입장하셨습니다.\n";
+				chatContent.innerHTML += "<div class=\"message center\">"
+										+ 	"<div class=\"bubble\">"
+										+ 		"<span class=\"text\">" + msgData.substring(idx + 1) + "님이 입장하셨습니다.</span>"
+										+ 	"</div>"
+										+ "</div>";
 			} else if (msgData.includes("msg")) {
+				console.log(msgData); // msg;edge:H
 				var index = msgData.indexOf(';');
-				messageTextArea.value += "전송받은 메세지 : " + msgData.substring(index + 1) + "\n";
+				var content = msgData.substring(idx + 1);
+				var user = msgData.substring(index + 1, idx);
+				if (user == "${userName}") {
+					chatContent.innerHTML += "" 
+						+ "<div class=\"message right\">"
+						+ 	"<div class=\"bubble\">"
+						+ 		"<span class=\"text\">" + content + "</span>"
+						+ 	"</div>"
+						+ "</div>";
+				} else {
+					chatContent.innerHTML += "" 
+						+ "<div class=\"message left\">"
+						+ 	"<div class=\"bubble\">"
+						+ 		"<span class=\"text\">" + user + " : " + content + "</span>"
+						+ 	"</div>"
+						+ "</div>";
+				}
 			}
 		};
 		
 		function sendMessage() {
-			var message = document.getElementById("textMessage");
+			var message = document.getElementById("sendMsg");
 			// 웹소켓이 연결 끊기면 전송 안되도록 
 			//  ㄴ끊기면 전송안되는듯
 			// messageTextArea.value += "서버에게 보낸 메세지 : " + message.value + "\n";		
