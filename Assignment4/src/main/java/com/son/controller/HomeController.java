@@ -134,4 +134,12 @@ public class HomeController {
 	 	*/
 		return "redirect:roomList?isDelete=" + result + "&roomName=" + roomName;
 	}
+	
+	@RequestMapping(value = "decoding", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public Map<String, String> decoding(@RequestBody Map<String, String> JsonReqData) {
+		
+		
+		return JsonReqData;
+	}
 }

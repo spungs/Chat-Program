@@ -142,7 +142,7 @@ form {
   margin-right: 10px;
 }
 
-.submitBtn {
+.submitBtn, .decodeBtn {
   border: none;
   border-radius: 5px;
   background-color: #cef2ff;
@@ -151,7 +151,7 @@ form {
   cursor: pointer;
 }
 
-.submitBtn:hover {
+.submitBtn:hover, .decodeBtn {
   background-color: #a3e1ff;
 }
 
@@ -191,6 +191,7 @@ form {
 	      <input id="sendMsg" type="text" class="form-control">
 	      <div class="input-group-append">
 	        <button class="submitBtn" onclick="sendMessage()" type="button">전송</button>
+	        <button class="decodeBtn" onclick="decoding()" type="button">디코딩</button>
 	      </div>
 	    </div>
 	  </form>
@@ -223,8 +224,8 @@ form {
 		webSocket.onmessage = function(message) {
 			var msgData = message.data;
 			var idx = msgData.indexOf(':');
-// 			console.log("idx : " + idx);	
-// 			console.log("msg : "+msgData);
+			console.log("idx : " + idx);	
+			console.log("msg : " + msgData);
 			if (msgData.includes("exit ${roomName}")) {
 				chatContent.innerHTML += "<div class=\"message center\">"
 			      						+ 	"<div class=\"bubble\">"
@@ -244,18 +245,18 @@ form {
 				var user = msgData.substring(index + 1, idx);
 				if (user == "${userName}") {
 					chatContent.innerHTML += "" 
-						+ "<div class=\"message right\">"
-						+ 	"<div class=\"bubble\">"
-						+ 		"<span class=\"text\">" + content + "</span>"
-						+ 	"</div>"
-						+ "</div>";
+											+ "<div class=\"message right\">"
+											+ 	"<div class=\"bubble\">"
+											+ 		"<span class=\"text content\">" + content + "</span>"
+											+ 	"</div>"
+											+ "</div>";
 				} else {
 					chatContent.innerHTML += "" 
-						+ "<div class=\"message left\">"
-						+ 	"<div class=\"bubble\">"
-						+ 		"<span class=\"text\">" + user + " : " + content + "</span>"
-						+ 	"</div>"
-						+ "</div>";
+											+ "<div class=\"message left\">"
+											+ 	"<div class=\"bubble\">"
+											+ 		"<span class=\"text content\">" + user + " : " + content + "</span>"
+											+ 	"</div>"
+											+ "</div>";
 				}
 			}
 		};
@@ -265,6 +266,11 @@ form {
 			// 웹소켓이 연결 끊기면 전송 안되도록 
 			//  ㄴ끊기면 전송안되는듯
 			// messageTextArea.value += "서버에게 보낸 메세지 : " + message.value + "\n";		
+			
+			// 입력값이 없으면 return 하도록
+			if (message.value == "") {
+				return;
+			}
 			
 			webSocket.send(message.value);
 			
@@ -277,10 +283,12 @@ form {
 		}
 		
 		function exit() {
-// 			console.log("${userName}");
-			webSocket.send("exit ${roomName}:${userName}");
 			disconnect();
 			location.href='roomList';
+		}
+		
+		function decoding() {
+			
 		}
 		
 	</script>

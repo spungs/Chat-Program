@@ -1,5 +1,6 @@
 package com.son.service;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,15 +68,15 @@ public class WebSocket {
 		}
 		
 		clientsMap.put((String) s.getUserProperties().get("userName"), roomName);
-		for (Session clients : clients) {
+		for (Session client : clients) {
 			// map에 userName, roomName put
 			System.out.println("clientsMap : " + clientsMap);
 			System.out.println("value : " + clientsMap.get(userName));
 			
-			String clientName = (String) clients.getUserProperties().get("userName");
+			String clientName = (String) client.getUserProperties().get("userName");
 			if (roomName.equals(clientsMap.get(clientName))) {
-				System.out.println("clients : " + clients.getUserProperties().get("userName"));
-				clients.getBasicRemote().sendText("connect:" + userName);
+				System.out.println("clients : " + client.getUserProperties().get("userName"));
+				client.getBasicRemote().sendText("connect:" + userName);
 			}
 		}
 	}
@@ -102,7 +103,7 @@ public class WebSocket {
 			// msg encoding test(ok)
 			msg = chatService.encodeMsg(msg);
 		}
-		for (Session clients : clients) {
+		for (Session client : clients) {
 			// map에 userName, roomName put
 //			clientsMap.put((String) clients.getUserProperties().get("userName"), roomName);
 			System.out.println("clientsMap : " + clientsMap);
@@ -110,11 +111,11 @@ public class WebSocket {
 //			System.out.println("roomName eq: " + roomName);
 //			System.out.println("userName eq: " + userName);
 //			System.out.println("clientsMap.get(userName) eq: " + clientsMap.get(userName));
-			String clientName = (String) clients.getUserProperties().get("userName");
+			String clientName = (String) client.getUserProperties().get("userName");
 			System.out.println("클라이언트 이름 : "+clientName);
 			if (roomName.equals(clientsMap.get(clientName))) {
 				System.out.println("send to clients : user:" + userName + ", " + msg);
-				clients.getBasicRemote().sendText("msg;" + userName + ":" + msg);
+				client.getBasicRemote().sendText("msg;" + userName + ":" + msg);
 			}
 		}
 		
@@ -127,8 +128,19 @@ public class WebSocket {
 
 	@OnClose
 	public void handleClose(Session s) {
-		System.out.println(s.getUserProperties().get("userName") + "님이 disconnected함");
+		String roomName = getRoomNameFromWebSocketUrl(s.getRequestURI().getQuery());
+		String userName = (String) s.getUserProperties().get("userName");
 		clients.remove(s);
+		for (Session client : clients) {
+			String clientName = (String) client.getUserProperties().get("userName");
+			if (roomName.equals(clientsMap.get(clientName))) {
+				try {
+					client.getBasicRemote().sendText("exit " + roomName + ":" + userName);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@OnError
