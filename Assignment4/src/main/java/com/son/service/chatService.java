@@ -12,6 +12,10 @@ public interface chatService {
 
 	public String encode(String html, String method);
 
+	public String isRoom(String roomName);
+
+	public String isSame(String encodeKey, String inputKey);
+
 	// test for mabatis seminar
 //	 public void ChooseWhen();
 

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,9 +45,13 @@ public class HomeController {
 		}
 		
 		model.addAttribute("roomList", service.getRoomList());
-		if (isDelete != null) {
+		System.out.println("isDelete : " + isDelete);
+		
+		if (isDelete != null && !isDelete.equals("0")) {
 			model.addAttribute("roomName", roomName);
 			model.addAttribute("msg", isDelete);
+		} else if (isDelete != null && isDelete.equals("0")) {
+			model.addAttribute("msg", "당신은 '" + roomName + "'의 오너가 아닙니다.");
 		}
 		
 		return "roomList";
@@ -73,6 +78,14 @@ public class HomeController {
 		if (isSession == null) {
 			ModelAndView mv = new ModelAndView("chatApp");
 			mv.addObject("msg", "사용자를 입력하세요.");
+			return mv;
+		}
+		
+		String isRoom = service.isRoom(roomName);
+		System.out.println("방 있냐? "+isRoom);
+		if (isRoom == null) {
+			ModelAndView mv = new ModelAndView("roomList");
+			mv.addObject("msg", "존재하지 않는 방입니다. 다시 확인해주세요.");
 			return mv;
 		}
 		
@@ -104,10 +117,12 @@ public class HomeController {
 	@RequestMapping("deleteRoom")
 	public String deleteRoom(RedirectAttributes ra, String userName, String roomName) {
 		// test print
-		System.out.println("roomName : " + roomName);
-		System.out.println("userName : " + userName);
+		System.out.println("deleteRoom roomName : " + roomName);
+		System.out.println("deleteRoom userName : " + userName);
 		
 		int result = service.deleteRoom(roomName, userName);
+		
+		System.out.println("deleteRoom result : " + result);
 		
 		return "redirect:roomList?isDelete=" + result + "&roomName=" + roomName;
 	}
@@ -132,4 +147,14 @@ public class HomeController {
 		
 		return JsonReqData;
 	}
+	
+	// encodeKeyConfirm
+	@RequestMapping(value = "encodeKeyConfirm", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public String encodeKeyConfirm(@RequestBody String inputKey, @Value("${encode.key}") String encodeKey) {
+		System.out.println("encodeKeyConfirm: " + inputKey);
+		String result = service.isSame(encodeKey, inputKey);
+		return result;
+	}
+		
 }

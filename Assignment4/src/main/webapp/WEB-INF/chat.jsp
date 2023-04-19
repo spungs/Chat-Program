@@ -142,7 +142,7 @@ form {
   margin-right: 10px;
 }
 
-.submitBtn, .decodeBtn, .encodeBtn {
+.submitBtn, .endecodeBtn {
   border: none;
   border-radius: 5px;
   background-color: #cef2ff;
@@ -151,14 +151,9 @@ form {
   cursor: pointer;
 }
 
-.submitBtn:hover, .decodeBtn, .encodeBtn {
+.submitBtn:hover, .endecodeBtn {
   background-color: #a3e1ff;
 }
-
-.encodeBtn {
-  background-color: #7fcdff;
-}
-
 
 .header-wrapper {
     display: flex;
@@ -196,12 +191,12 @@ form {
 	      <input id="sendMsg" type="text" class="form-control">
 	      <div class="input-group-append">
 	        <button class="submitBtn" onclick="sendMessage()" type="button">전송</button>
-	        <button class="decodeBtn" onclick="encode('decode')" type="button">복호화</button>
-	        <button class="encodeBtn" onclick="encode('encode')" type="button">암호화</button>
+	        <button class="endecodeBtn" onclick="endecode()" type="button">원문</button>
 	      </div>
 	    </div>
 	  </form>
 	</div>
+	<input type="hidden" id="endecodeNum" value="encode">
 	
 	<script type="text/javascript">
 		var webSocket = new WebSocket("ws://localhost/ws?userName=${userName}&roomName=${roomName}");
@@ -291,6 +286,42 @@ form {
 		function exit() {
 			disconnect();
 			location.href='roomList';
+		}
+		
+		function endecode() {
+			var endecodeNum = document.getElementById("endecodeNum");
+			console.log("endecode function : " + endecodeNum);
+			if (endecodeNum.value == "encode") {
+				var inputKey = prompt("Key를 입력해주세요.","");
+				var isSame = encodeKeyConfirm(inputKey, function(res) {
+				      console.log("isSame : " + res);
+					if (res == undefined) {
+						return;
+					} else if (res == "false") {
+						alert("땡! 틀렸으니까 복호화 안 해준다~");
+						return;
+					} 
+					endecodeNum.value = "decode";
+					encode("decode");
+				});
+			} else if (endecodeNum.value == "decode") {
+				endecodeNum.value = "encode";
+				encode("encode");
+			}
+		}
+		
+		function encodeKeyConfirm(inputKey, callback) {
+			const req = new XMLHttpRequest();
+			req.onreadystatechange = function() {
+				if (req.readyState == 4 && req.status == 200) {
+					console.log("encodeKeyConfirm sucess");
+					const res = req.responseText;
+					callback(res);
+				}
+			}
+			req.open('post', 'encodeKeyConfirm');
+			req.setRequestHeader('Content-Type', 'application/json');
+			req.send(inputKey);
 		}
 		
 		function encode(code) {

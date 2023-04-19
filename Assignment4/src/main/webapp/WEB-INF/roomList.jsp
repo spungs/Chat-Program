@@ -8,9 +8,11 @@
 <title>chat Room List</title>
 <script type="text/javascript">
 	// msg가 있다면 메세지 창 띄우기
-	var msg = '${msg}';
-	if (msg != 0) {
-		alert("${roomName}이/가 삭제되었습니다.");
+	var msg = "${msg}";
+	if (msg == 1 && "${roomName}" != "") {
+		alert("'${roomName}'이/가 삭제되었습니다.");
+	} else if ("${msg}" != ""){
+		alert("${msg}");
 	}
 	// GET 파라미터 제거 후 새로고침 
 	history.replaceState({}, null, "roomList");

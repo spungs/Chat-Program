@@ -1,6 +1,7 @@
 package com.son.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -104,6 +105,23 @@ public class chatServiceImpl implements chatService {
 
         return null;
     }
+    
+    @Override
+	public String isRoom(String roomName) {
+    	String isRoom = dao.isRoom(roomName);
+    	
+		return isRoom;
+	}
+    
+    @Override
+	public String isSame(String encodeKey, String inputKey) {
+    	System.out.println("isSame encodeKey: " + encodeKey);
+    	String result = "false";
+    	if (encodeKey.equals(inputKey)) {
+    		result = "true";
+    	}
+		return result;
+	}
 
     @Override
     public int addList(String roomName, String owner) {
@@ -169,6 +187,7 @@ public class chatServiceImpl implements chatService {
     public void ChangeTypeAndOrder() {
         // String to char[]
         nonOverlapCharArr = nonOverlapString.toCharArray();
+        System.out.println(nonOverlapCharArr);
 
         // 알파벳 A-Y까지 array에 담기
         char lower = 'A';
@@ -199,20 +218,20 @@ public class chatServiceImpl implements chatService {
                 if (addNonOverlapCharArr != (25 - alphabetArr.size())) {
                     encodeArr[i][j] = Character.toString(nonOverlapCharArr[j]);
                     addNonOverlapCharArr++;
-//					System.out.print(Character.toString(nonOverlapCharArr[j]));
+					System.out.print(" if:" + Character.toString(nonOverlapCharArr[j]));
                 } else {
                     encodeArr[i][j] = alphabetArr.get(addAlphaArr);
-//					System.out.print(alphaArr.get(addAlphaArr));
+					System.out.print(" else:" + alphabetArr.get(addAlphaArr));
                     addAlphaArr++;
                 }
             }
         }
         // 배열에 어떻게 들어가 있는지 보기위한 출력
-//		System.out.println(Arrays.deepToString(encode));
+		System.out.println(Arrays.deepToString(encodeArr));
     }
 
     /* happy keyword 예시
-     * [H, A, P, Y, B]
+     * [H, A, P, I, N]
      * [C, D, E, F, G]
      * [I, J, K, L, M]
      * [N, O, Q, R, S]
@@ -295,5 +314,5 @@ public class chatServiceImpl implements chatService {
 		
 		return newHtml;
 	}
-	
+
 }
