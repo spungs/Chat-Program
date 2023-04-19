@@ -2,14 +2,16 @@ package com.son.service;
 
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.son.repository.chatDao;
-
-import dto.UserDTO;
 
 //@Configuration
 @ComponentScan
@@ -144,7 +146,7 @@ public class chatServiceImpl implements chatService {
                 encodedMsg += encoding(msgArr[i]).toUpperCase();
             }
         }
-        System.out.println("암호화된 msg : " + encodedMsg);
+        System.out.println("인코딩된 msg : " + encodedMsg);
 
         return encodedMsg;
     }
@@ -238,5 +240,60 @@ public class chatServiceImpl implements chatService {
 		return msg;
     }
 
+	@Override
+	public String encode(String html, String method) {
+		// Jsoup 라이브러리를 사용하여 HTML 코드 파싱
+		Document doc = Jsoup.parse(html);
+		
+		// 특정 클래스를 가진 모든 요소 선택
+		Elements leftMsg = doc.select("div.message.left");
+		Elements rightMsg = doc.select("div.message.right");
+		
+		// left, right msg 텍스트 추출
+		for (Element msg : leftMsg) {
+			String text = "";
+			if (method.equals("decode")) {
+				text = msg.select("span.text.content.encode").text();
+			} else if (method.equals("encode")) {
+				text = msg.select("span.text.content.decode").text();
+			}
+//			System.out.println("msg \n" + msg);
+			System.out.println("text : " + text);
+			if (!text.equals("")) {
+				int idx = text.indexOf(":");
+				String user = text.substring(0, idx);
+				text = text.substring(idx + 1);
+				String decodedText = encodeMsg(text);
+//				System.out.println("leftMsg : " + decodedText);
+				if (method.equals("decode")) {
+					msg.select("span.text.content.encode").first().text(user + " : " + decodedText);
+				} else if (method.equals("encode")) {
+					msg.select("span.text.content.decode").first().text(user + " : " + decodedText);
+				}
+			}
+		}
+		
+		for (Element msg : rightMsg) {
+			String text = "";
+			if (method.equals("decode")) {
+				text = msg.select("span.text.content.encode").text();
+			} else if (method.equals("encode")) {
+				text = msg.select("span.text.content.decode").text();
+			}
+			if (!text.equals("")) {
+				String decodedText = encodeMsg(text);
+//				System.out.println("rightMsg : " + decodedText);
+				if (method.equals("decode")) {
+					msg.select("span.text.content.encode").first().text(decodedText);
+				} else if (method.equals("encode")) {
+					msg.select("span.text.content.decode").first().text(decodedText);
+				}
+			}
+		}
+		
+		String newHtml = doc.outerHtml();
+		
+		return newHtml;
+	}
 	
 }

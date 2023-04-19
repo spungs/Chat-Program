@@ -9,7 +9,9 @@ public interface chatService {
 	public int deleteRoom(String roomName, String owner);
 
 	public String encodeMsg(String msg);
-	
+
+	public String encode(String html, String method);
+
 	// test for mabatis seminar
 //	 public void ChooseWhen();
 

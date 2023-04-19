@@ -28,8 +28,6 @@ public class HomeController {
 	// 첫 화면 (유저의 이름 입력하여 프로그램 시작하기)
 	@RequestMapping("chatApp")
 	public void chatApp(HttpSession session) {
-		// test method for mybatis seminar
-//		service.ChooseWhen();
 		session.invalidate();
 	}
 	
@@ -61,20 +59,6 @@ public class HomeController {
 		HttpSession session= req.getSession();
 		session.setAttribute("userName", userName);
 		
-		/* 지워도 될거같음(90%)
-		 * 
-		// null 처리 필요 여부에 따라 수정
-//        if(service.getRoomList() != null) {
-//            model.addAttribute("roomList", service.getRoomList());
-//        }
-		
-//		ra.addFlashAttribute("roomList", service.getRoomList());
-//		ra.addFlashAttribute("userName", userName);
-//		ra.addFlashAttribute("roomName", roomName);
-//		if (isDelete != null) {
-//			ra.addFlashAttribute("msg", isDelete);
-//		}
-		*/
 		model.addAttribute("roomList", service.getRoomList());
 		
 		return "redirect:roomList";
@@ -125,20 +109,26 @@ public class HomeController {
 		
 		int result = service.deleteRoom(roomName, userName);
 		
-		/* 지워도 될거 같음(80%)
-//		ra.addAttribute("userName", userName);	// session을 대체함
-//		ra.addAttribute("isDelete", result);	// Get방식으로 전달
-//		ra.addAttribute("roomName", roomName);	// Get방식으로 전달
-		
-//		return "redirect:roomList";
-	 	*/
 		return "redirect:roomList?isDelete=" + result + "&roomName=" + roomName;
 	}
 	
-	@RequestMapping(value = "decoding", method = RequestMethod.POST, consumes = "application/json")
+	// encode
+	@RequestMapping(value = "encode", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	public Map<String, String> decoding(@RequestBody Map<String, String> JsonReqData) {
+	public Map<String, String> encode(@RequestBody Map<String, String> JsonReqData) {
+		// ajax로 받은 json 형태의 html 코드
+		String html = JsonReqData.get("html");
+		String method = JsonReqData.get("method");
 		
+		// test print (OK) ========delete===========
+//		System.out.println("html: \n" + html);
+//		System.out.println(method);
+		
+		String newHtml = service.encode(html, method);
+		
+		JsonReqData.put("html", newHtml);
+		
+//		System.out.println("newHTML: \n " + newHtml);
 		
 		return JsonReqData;
 	}

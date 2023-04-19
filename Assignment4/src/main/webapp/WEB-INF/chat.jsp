@@ -142,7 +142,7 @@ form {
   margin-right: 10px;
 }
 
-.submitBtn, .decodeBtn {
+.submitBtn, .decodeBtn, .encodeBtn {
   border: none;
   border-radius: 5px;
   background-color: #cef2ff;
@@ -151,9 +151,14 @@ form {
   cursor: pointer;
 }
 
-.submitBtn:hover, .decodeBtn {
+.submitBtn:hover, .decodeBtn, .encodeBtn {
   background-color: #a3e1ff;
 }
+
+.encodeBtn {
+  background-color: #7fcdff;
+}
+
 
 .header-wrapper {
     display: flex;
@@ -191,7 +196,8 @@ form {
 	      <input id="sendMsg" type="text" class="form-control">
 	      <div class="input-group-append">
 	        <button class="submitBtn" onclick="sendMessage()" type="button">전송</button>
-	        <button class="decodeBtn" onclick="decoding()" type="button">디코딩</button>
+	        <button class="decodeBtn" onclick="encode('decode')" type="button">복호화</button>
+	        <button class="encodeBtn" onclick="encode('encode')" type="button">암호화</button>
 	      </div>
 	    </div>
 	  </form>
@@ -247,14 +253,14 @@ form {
 					chatContent.innerHTML += "" 
 											+ "<div class=\"message right\">"
 											+ 	"<div class=\"bubble\">"
-											+ 		"<span class=\"text content\">" + content + "</span>"
+											+ 		"<span class=\"text content encode\">" + content + "</span>"
 											+ 	"</div>"
 											+ "</div>";
 				} else {
 					chatContent.innerHTML += "" 
 											+ "<div class=\"message left\">"
 											+ 	"<div class=\"bubble\">"
-											+ 		"<span class=\"text content\">" + user + " : " + content + "</span>"
+											+ 		"<span class=\"text content encode\">" + user + " : " + content + "</span>"
 											+ 	"</div>"
 											+ "</div>";
 				}
@@ -287,10 +293,34 @@ form {
 			location.href='roomList';
 		}
 		
-		function decoding() {
+		function encode(code) {
+			const req = new XMLHttpRequest();
+			console.log("code : " + code);
 			
+			const data = {
+				html: document.getElementById("chat-content").innerHTML,
+				method: code
+			};
+			
+			console.log("json : " + JSON.stringify(data));
+			
+			req.onreadystatechange = function() {
+				if (req.readyState == 4 && req.status == 200) {
+					console.log("sucess")
+					const res = JSON.parse(req.responseText);
+					if (code == "encode") {
+						res.html = res.html.replaceAll("decode", "encode");
+					} else if (code == "decode") {
+						res.html = res.html.replaceAll("encode", "decode");
+					}
+					console.log("res.html============ \n"+res.html);
+					document.getElementById("chat-content").innerHTML = res.html;
+				}
+			}
+			req.open('post', 'encode');
+			req.setRequestHeader('Content-Type', 'application/json');
+			req.send(JSON.stringify(data));
 		}
-		
 	</script>
 </body>
 </html>
