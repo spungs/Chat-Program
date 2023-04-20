@@ -12,9 +12,9 @@ public interface ChatService {
 	
 	public int deleteRoom(String roomName, String owner);
 
-	public String encodeMsg(String msg);
+	public String encryptMsg(String msg);
 
-	public String endecode(String html, String method);
+	public String encryptOrDecryptMsgs(String html, String method);
 
 	public String isRoom(String roomName);
 

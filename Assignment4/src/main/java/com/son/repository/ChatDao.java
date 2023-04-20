@@ -3,13 +3,9 @@ package com.son.repository;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import dto.RoomDTO;
-import dto.UserDTO;
 
 @Repository
 @Mapper
@@ -22,8 +18,4 @@ public interface ChatDao {
 	public String isRoom(String roomName);
 
 	public int deleteRoom(String roomName, String owner);
-
-	public void updateYN(UserDTO user);
-
-	public ArrayList<UserDTO> selectUser(String[] users);
 }

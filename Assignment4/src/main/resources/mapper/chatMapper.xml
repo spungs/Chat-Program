@@ -13,7 +13,7 @@
 		FROM chatList WHERE roomName = #{roomName}
 	</select>
 	<delete id="deleteRoom" parameterType="String">
-		DELETE FROM chatlist WHERE
+		DELETE FROM chatList WHERE
 		roomName = #{roomName} AND owner = #{owner}
 	</delete>
 </mapper>

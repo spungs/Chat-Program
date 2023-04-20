@@ -348,7 +348,7 @@ form {
 					document.getElementById("chat-content").innerHTML = res.html;
 				}
 			}
-			req.open('post', 'endecode');
+			req.open('post', 'encryptOrDecryptMsgs');
 			req.setRequestHeader('Content-Type', 'application/json');
 			req.send(JSON.stringify(data));
 		}

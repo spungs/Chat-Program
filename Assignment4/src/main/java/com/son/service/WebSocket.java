@@ -101,7 +101,7 @@ public class WebSocket {
 		System.out.println("msg.length() : " + msg.length());
 		if (!userOut) {
 			// msg encoding test(ok)
-			msg = chatService.encodeMsg(msg);
+			msg = chatService.encryptMsg(msg);
 		}
 		
 		for (Session client : clients) {

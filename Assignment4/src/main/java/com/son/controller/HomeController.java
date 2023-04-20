@@ -126,7 +126,7 @@ public class HomeController {
 	}
 	
 	// encode
-	@RequestMapping(value = "endecode", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "encryptOrDecryptMsgs", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public Map<String, String> encode(@RequestBody Map<String, String> JsonReqData) {
 		// ajax로 받은 json 형태의 html 코드
@@ -137,7 +137,7 @@ public class HomeController {
 //		System.out.println("html: \n" + html);
 //		System.out.println(method);
 		
-		String newHtml = service.endecode(html, method);
+		String newHtml = service.encryptOrDecryptMsgs(html, method);
 		
 		JsonReqData.put("html", newHtml);
 		
