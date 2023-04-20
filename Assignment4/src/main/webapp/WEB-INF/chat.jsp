@@ -188,6 +188,7 @@ form {
 	<div class="wrapper">
 	  <form>
 	    <div class="input-group">
+	      <input hidden="hidden" />
 	      <input id="sendMsg" type="text" class="form-control">
 	      <div class="input-group-append">
 	        <button class="submitBtn" onclick="sendMessage()" type="button">전송</button>
@@ -354,16 +355,14 @@ form {
 		}
 		
 		// enter키 누르면 chat을 request해버림
-// 		const inputMsg = document.getElementById('sendMsg');
-// 		const sendBtn = document.querySelector("input[type='button'][class='submitBtn']");
+		const inputMsg = document.getElementById('sendMsg');
+		const sendBtn = document.querySelector("button.submitBtn");
 			
-// 		inputMsg.addEventListener("keydown", function(e) {
-// 			alert("이벤트 들어왔냐?");
-// 		if (e.key === "Enter") {
-// 			alert("enter 들어왔냐?");
-// 			sendBtn.click();
-// 		}
-// 		});
+		inputMsg.addEventListener("keydown", function(e) {
+		if (e.key === "Enter") {
+			sendBtn.click();
+		}
+		});
 	</script>
 </body>
 </html>
