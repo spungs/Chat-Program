@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.son.repository.chatDao;
 
+import dto.RoomDTO;
+
 //@Configuration
 @ComponentScan
 @Service
@@ -96,8 +98,8 @@ public class chatServiceImpl implements chatService {
     }
 
     @Override
-    public String[] getRoomList() {
-        String[] arr = dao.getRoomList();
+    public ArrayList<RoomDTO> getRoomList() {
+        ArrayList<RoomDTO> arr = dao.getRoomList();
 
         if (arr != null) {
             return arr;
@@ -213,15 +215,17 @@ public class chatServiceImpl implements chatService {
     public void makeEncodeArr() {
         int addNonOverlapCharArr = 0;
         int addAlphaArr = 0;
+        int cntAlphabetArr = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (addNonOverlapCharArr != (25 - alphabetArr.size())) {
-                    encodeArr[i][j] = Character.toString(nonOverlapCharArr[j]);
+                    encodeArr[i][j] = Character.toString(nonOverlapCharArr[cntAlphabetArr]);
                     addNonOverlapCharArr++;
-					System.out.print(" if:" + Character.toString(nonOverlapCharArr[j]));
+                    System.out.print(" if : " + Character.toString(nonOverlapCharArr[cntAlphabetArr]) + "\n");
+                    cntAlphabetArr++;
                 } else {
                     encodeArr[i][j] = alphabetArr.get(addAlphaArr);
-					System.out.print(" else:" + alphabetArr.get(addAlphaArr));
+					System.out.print(" else : " + alphabetArr.get(addAlphaArr) + "\n");
                     addAlphaArr++;
                 }
             }
@@ -232,10 +236,10 @@ public class chatServiceImpl implements chatService {
 
     /* happy keyword 예시
      * [H, A, P, I, N]
-     * [C, D, E, F, G]
-     * [I, J, K, L, M]
-     * [N, O, Q, R, S]
-     * [T, U, V, W, X]
+     * [E, S, B, C, D]
+     * [F, G, J, K, L]
+     * [M, O, Q, R, T]
+     * [U, V, W, X, Y]
      */
     public String encoding(char msgChar) {
         // char가 아스키 코드로 되어있어서 String과 equals로 비교할 수 없음..

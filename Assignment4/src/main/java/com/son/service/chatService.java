@@ -1,8 +1,12 @@
 package com.son.service;
 
+import java.util.ArrayList;
+
+import dto.RoomDTO;
+
 public interface chatService {
 	
-	public String[] getRoomList();
+	public ArrayList<RoomDTO> getRoomList();
 
 	public int addList(String roomName, String owner);
 	

@@ -8,13 +8,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import dto.RoomDTO;
 import dto.UserDTO;
 
 @Repository
 @Mapper
 public interface chatDao {
 
-	public String[] getRoomList();
+	public ArrayList<RoomDTO> getRoomList();
 
 	public void insertNewRoom(String roomName, String owner);
 

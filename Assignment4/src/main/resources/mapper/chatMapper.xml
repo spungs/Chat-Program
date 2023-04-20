@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.son.repository.chatDao">
-	<select id="getRoomList" resultType="String">
-		SELECT roomName FROM chatList
+	<select id="getRoomList" resultType="dto.RoomDTO">
+		SELECT * FROM chatList
 	</select>
 	<insert id="insertNewRoom" parameterType="String">
 		INSERT INTO chatList

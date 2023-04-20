@@ -115,11 +115,13 @@ public class HomeController {
 	}
 
 	@RequestMapping("deleteRoom")
-	public String deleteRoom(RedirectAttributes ra, String userName, String roomName) {
+	public String deleteRoom(RedirectAttributes ra, String userName, String roomNameOwner) {
 		// test print
-		System.out.println("deleteRoom roomName : " + roomName);
+		System.out.println("deleteRoom roomNameOwner : " + roomNameOwner);
 		System.out.println("deleteRoom userName : " + userName);
-		
+		int idx = roomNameOwner.indexOf("(");
+		String roomName = roomNameOwner.substring(0, idx);
+		System.out.println("deleteRoom roomName : " + roomName);
 		int result = service.deleteRoom(roomName, userName);
 		
 		System.out.println("deleteRoom result : " + result);

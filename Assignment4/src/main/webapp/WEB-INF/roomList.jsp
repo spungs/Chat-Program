@@ -63,10 +63,12 @@
 	function deleteRoom() {
 		var frm = document.getElementById('frm');
 		var roomNameObj = document.getElementById('roomList');
-		var roomName = roomNameObj.value;
+		var roomNameOwner = roomNameObj.value;
+		var idx = roomNameOwner.indexOf("(");
+		var roomName = roomNameOwner.substring(0, idx);
 		
 		if (roomName != ''){
-			var deleteYN = confirm("'" + roomName + "' 채팅방을 삭제하시겠습니까?");
+			var deleteYN = confirm("'" + roomName + "'을 삭제하시겠습니까?");
 			if (deleteYN) {
 				frm.method = 'post';
 				frm.action = 'deleteRoom';
@@ -87,14 +89,14 @@
 	<br>
 	<div>
 		<select id="roomList" multiple="multiple" style="width: 200px; height: 150px">
-			<c:forEach items="${roomList }" var="room">
-				<option id="${room}" onclick="selectRoom(this)" ondblclick="location.href='chat?userName=${userName}&roomName=${room}'">${room}</option>
+			<c:forEach items="${roomList }" var="item" >
+				<option id="${item.roomName}" onclick="selectRoom(this)" ondblclick="location.href='chat?userName=${userName}&roomName=${item.roomName}'">${item.roomName}(${item.owner})</option>
 			</c:forEach>
 		</select>
 	</div>
 	<form id="frm">
 		<input type="hidden" id="userName" name="userName" value="${userName}">
-		<input type="hidden" id="selectRoom" name="roomName">
+		<input type="hidden" id="selectRoom" name="roomNameOwner">
 		<button id="deleteBtn" onclick="deleteRoom()" type="button">방 삭제하기</button>
 	</form>
 	
