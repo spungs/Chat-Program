@@ -1,0 +1,166 @@
+@charset "UTF-8";
+body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.chat-wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+	width: 500px;
+	padding: 10px;
+	align-items: flex-end;
+	background: #D3D3D3;
+}
+
+.chat {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 500px;
+	overflow-y: auto;
+}
+
+.title {
+	width: 500px;
+ 	display: flex;
+ 	justify-content: center;
+}
+
+.message {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	margin-bottom: 10px;
+}
+
+/* right class 우측 정렬 */
+.message.right {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+
+/* left class 좌측 정렬 */
+.message.left {
+	align-self: flex-start;
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 10px;
+	max-width: 60%;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	font-size: 12px;
+}
+
+
+.bubble {
+	padding: 10px;
+	border-radius: 20px;
+}
+
+.left .bubble {
+	background-color: white;
+}
+
+.right .bubble {
+	background-color: #cef2ff;
+}
+
+.center .bubble {
+	background-color: #D3D3D3;
+	padding: 10px;
+	border-radius: 20px;
+	font-size: 12px;
+}
+
+.left .time {
+	margin-left: 10px;
+	font-size: 12px;
+}
+
+.right .time {
+	margin-right: 10px;
+	font-size: 12px;
+}
+
+.text {
+	display: block;
+	white-space: pre-wrap;
+	word-break: break-all;
+	line-height: 1.5;
+	max-width: 200px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+  margin-top: 10px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  margin-right: 10px;
+}
+
+.form-control {
+  flex: 1;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid gray;
+  margin-right: 10px;
+}
+
+.submitBtn, .endecodeBtn {
+  border: none;
+  border-radius: 5px;
+  background-color: #cef2ff;
+  color: #333;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.submitBtn:hover, .endecodeBtn {
+  background-color: #a3e1ff;
+}
+
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.exitBtn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+      position: absolute;
+    right: 0;
+}

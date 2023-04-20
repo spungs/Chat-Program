@@ -25,7 +25,7 @@ import com.son.config.ServerEndpointConfigurator;
 @ServerEndpoint(value = "/ws", configurator = ServerEndpointConfigurator.class)
 public class WebSocket {
 	@Autowired
-	chatServiceImpl chatService;
+	ChatServiceImpl chatService;
 	
 	// WebSocket Class는 client가 접속할 때마다 생성되어 client와 직접 통신하는 클래스이다.
 	// 따라서 new client가 접속할 때마다 client의 세션 관련 정보를 정적형으로 저장하여 1:N의 통신이 가능하도록 만들어야 한다.
@@ -34,40 +34,40 @@ public class WebSocket {
 	private Map<String, String> clientsMap = Collections.synchronizedMap(new HashMap<String, String>());
 
 	@OnOpen
-	public void handleOpen(Session s, EndpointConfig config) throws Exception {
-		HttpSession session = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-		String roomName = getRoomNameFromWebSocketUrl(s.getRequestURI().getQuery());
+	public void handleOpen(Session session, EndpointConfig config) throws Exception {
+		HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+		String roomName = getRoomNameFromWebSocketUrl(session.getRequestURI().getQuery());
 		// test print (ok)
 //		System.out.println("HttpSession : " + session);
 //		System.out.println("roomName : " + roomName);
 		
-		if (session == null) {
+		if (httpSession == null) {
 			return;
 		}
 		
-		String userName = (String) session.getAttribute("userName");
+		String userName = (String) httpSession.getAttribute("userName");
 		
 		if (userName == null) {
 			return;
 		}
 		// save the user's name in the session for future use
-		s.getUserProperties().put("userName", userName);
+		session.getUserProperties().put("userName", userName);
 		System.out.println(userName + " has connected");
 		// map에 userName, roomName put
 //		clientsMap.put("userName", userName);
 //		clientsMap.put("roomName", roomName);
 //		System.out.println(clientsMap);
 		
-		if (!clients.contains(s)) {
-			clients.add(s);
+		if (!clients.contains(session)) {
+			clients.add(session);
 			// 창을 안 닫으니까 새로고침할 때마다 session id가 누적됨 (16진수임 9 > a, f > 10으로 넘어감)
-			System.out.println(s.getUserProperties().get("userName") + "님이 접속함");
+			System.out.println(session.getUserProperties().get("userName") + "님이 접속함");
 		} else {
 			// 새로고침시 webSocket이 새로 열리기 때문에 사실상 무의미
 			System.out.println("이미 연결된 session");
 		}
 		
-		clientsMap.put((String) s.getUserProperties().get("userName"), roomName);
+		clientsMap.put((String) session.getUserProperties().get("userName"), roomName);
 		for (Session client : clients) {
 			// map에 userName, roomName put
 			System.out.println("clientsMap : " + clientsMap);
@@ -93,9 +93,9 @@ public class WebSocket {
 	}
 
 	@OnMessage
-	public void handleMessage(Session s, String msg) throws Exception {
-		String roomName = getRoomNameFromWebSocketUrl(s.getRequestURI().getQuery());
-		String userName = (String) s.getUserProperties().get("userName");
+	public void handleMessage(Session session, String msg) throws Exception {
+		String roomName = getRoomNameFromWebSocketUrl(session.getRequestURI().getQuery());
+		String userName = (String) session.getUserProperties().get("userName");
 		System.out.println(userName + "님에게 받은 메세지 : " + msg);
 		boolean userOut = msg.contains("exit");
 		System.out.println("msg.length() : " + msg.length());

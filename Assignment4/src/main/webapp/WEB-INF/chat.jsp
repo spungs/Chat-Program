@@ -188,7 +188,6 @@ form {
 	<div class="wrapper">
 	  <form>
 	    <div class="input-group">
-	      <input hidden="hidden" />
 	      <input id="sendMsg" type="text" class="form-control">
 	      <div class="input-group-append">
 	        <button class="submitBtn" onclick="sendMessage()" type="button">전송</button>
@@ -349,7 +348,7 @@ form {
 					document.getElementById("chat-content").innerHTML = res.html;
 				}
 			}
-			req.open('post', 'encode');
+			req.open('post', 'endecode');
 			req.setRequestHeader('Content-Type', 'application/json');
 			req.send(JSON.stringify(data));
 		}
@@ -360,6 +359,7 @@ form {
 			
 		inputMsg.addEventListener("keydown", function(e) {
 		if (e.key === "Enter") {
+			e.preventDefault();
 			sendBtn.click();
 		}
 		});

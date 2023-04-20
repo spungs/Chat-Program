@@ -19,17 +19,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.son.service.chatService;
+import com.son.service.ChatService;
 
 @Controller
 public class HomeController {
 	@Autowired
-	chatService service;
+	ChatService service;
 	
 	// 첫 화면 (유저의 이름 입력하여 프로그램 시작하기)
 	@RequestMapping("chatApp")
 	public void chatApp(HttpSession session) {
 		session.invalidate();
+	}
+	
+	@PostMapping("roomList")
+	public String roomList(RedirectAttributes ra, Model model, HttpServletRequest req, 
+			String userName, String roomName, String isDelete) {
+		System.err.println("roomList postMapping");
+		HttpSession session= req.getSession();
+		session.setAttribute("userName", userName);
+		return "redirect:roomList";
 	}
 	
 	@GetMapping("roomList")
@@ -45,7 +54,7 @@ public class HomeController {
 		}
 		
 		model.addAttribute("roomList", service.getRoomList());
-		ra.addFlashAttribute("roomList", service.getRoomList());
+//		ra.addFlashAttribute("roomList", service.getRoomList());
 //		System.out.println("isDelete : " + isDelete);
 		
 		if (isDelete != null && !isDelete.equals("0")) {
@@ -57,18 +66,6 @@ public class HomeController {
 		return "roomList";
 	}
 	
-	@PostMapping("roomList")
-	public String roomList(RedirectAttributes ra, Model model, HttpServletRequest req, 
-							String userName, String roomName, String isDelete) {
-		System.err.println("roomList postMapping");
-		HttpSession session= req.getSession();
-		session.setAttribute("userName", userName);
-		
-//		model.addAttribute("roomList", service.getRoomList());
-		
-		return "redirect:roomList";
-	}
-
 	@RequestMapping("chat")
 	public ModelAndView chat(String userName, String roomName, 
 							RedirectAttributes ra, HttpServletRequest req) {
@@ -82,7 +79,7 @@ public class HomeController {
 		}
 		
 		String isRoom = service.isRoom(roomName);
-		System.out.println("방 있냐? "+isRoom);
+//		System.out.println("방 있냐? "+isRoom);
 		if (isRoom == null) {
 			ModelAndView mv = new ModelAndView("roomList");
 			mv.addObject("msg", "존재하지 않는 방입니다. 다시 확인해주세요.");
@@ -92,7 +89,6 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("chat"); // mv.setViewName("chat");
 		mv.addObject("userName", userName);
 		mv.addObject("roomName", roomName);
-		
 		return mv;
 	}
 
@@ -130,18 +126,18 @@ public class HomeController {
 	}
 	
 	// encode
-	@RequestMapping(value = "encode", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "endecode", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public Map<String, String> encode(@RequestBody Map<String, String> JsonReqData) {
 		// ajax로 받은 json 형태의 html 코드
 		String html = JsonReqData.get("html");
 		String method = JsonReqData.get("method");
 		
-		// test print (OK) ========delete===========
+		// test print (OK)
 //		System.out.println("html: \n" + html);
 //		System.out.println(method);
 		
-		String newHtml = service.encode(html, method);
+		String newHtml = service.endecode(html, method);
 		
 		JsonReqData.put("html", newHtml);
 		

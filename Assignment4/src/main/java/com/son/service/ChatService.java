@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import dto.RoomDTO;
 
-public interface chatService {
+public interface ChatService {
 	
 	public ArrayList<RoomDTO> getRoomList();
 
@@ -14,7 +14,7 @@ public interface chatService {
 
 	public String encodeMsg(String msg);
 
-	public String encode(String html, String method);
+	public String endecode(String html, String method);
 
 	public String isRoom(String roomName);
 

@@ -12,15 +12,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-import com.son.repository.chatDao;
+import com.son.repository.ChatDao;
 
 import dto.RoomDTO;
 
-//@Configuration
 @ComponentScan
 @Service
-public class chatServiceImpl implements chatService {
-    @Autowired chatDao dao;
+public class ChatServiceImpl implements ChatService {
+    @Autowired ChatDao chatDao;
 
     private String nonOverlapString = "";
     private char[] nonOverlapCharArr = null;
@@ -30,7 +29,7 @@ public class chatServiceImpl implements chatService {
     private String[][] encodeArr = new String[5][5];
     
     // 생성자에서 encode 배열을 만듬
-    public chatServiceImpl(@Value("${encode.key}") String encodeKey) {
+    public ChatServiceImpl(@Value("${encode.key}") String encodeKey) {
         // encodeKey 중복 character 제거와 uppercase 변환
         deduplicationToUpperCase(encodeKey);
         // string to char Array, alphabet Array Change the order
@@ -41,7 +40,7 @@ public class chatServiceImpl implements chatService {
 
     @Override
     public ArrayList<RoomDTO> getRoomList() {
-        ArrayList<RoomDTO> arr = dao.getRoomList();
+        ArrayList<RoomDTO> arr = chatDao.getRoomList();
         if (arr != null) {
             return arr;
         }
@@ -50,7 +49,7 @@ public class chatServiceImpl implements chatService {
     
     @Override
 	public String isRoom(String roomName) {
-    	String isRoom = dao.isRoom(roomName);
+    	String isRoom = chatDao.isRoom(roomName);
 		return isRoom;
 	}
     
@@ -68,9 +67,9 @@ public class chatServiceImpl implements chatService {
     public int addList(String roomName, String owner) {
     	// 존재하면 name, 없으면 null
     	System.out.println(roomName);
-    	String isRoom = dao.isRoom(roomName);
+    	String isRoom = chatDao.isRoom(roomName);
     	if (isRoom == null) {
-    		dao.insertNewRoom(roomName, owner);
+    		chatDao.insertNewRoom(roomName, owner);
     		return 1;
     	}
     	return 0;
@@ -78,7 +77,7 @@ public class chatServiceImpl implements chatService {
     
     @Override
 	public int deleteRoom(String roomName, String owner) {
-    	int result = dao.deleteRoom(roomName, owner);
+    	int result = chatDao.deleteRoom(roomName, owner);
     	if (result != 0) {
     		return result;
     	} else {
@@ -201,7 +200,7 @@ public class chatServiceImpl implements chatService {
     }
 
 	@Override
-	public String encode(String html, String method) {
+	public String endecode(String html, String method) {
 		// Jsoup 라이브러리를 사용하여 HTML 코드 파싱
 		Document doc = Jsoup.parse(html);
 		// 특정 클래스를 가진 모든 요소 선택

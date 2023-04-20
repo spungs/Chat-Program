@@ -13,7 +13,7 @@ import dto.UserDTO;
 
 @Repository
 @Mapper
-public interface chatDao {
+public interface ChatDao {
 
 	public ArrayList<RoomDTO> getRoomList();
 
