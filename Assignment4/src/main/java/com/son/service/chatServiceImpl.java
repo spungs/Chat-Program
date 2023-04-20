@@ -29,64 +29,6 @@ public class chatServiceImpl implements chatService {
     // encodeArr 5x5 2차원 배열
     private String[][] encodeArr = new String[5][5];
     
-    /*
-    //test method
-    public void ChooseWhen() {
-    	System.out.println("chooseWhen 메서드 실행");
-    	String deptment = "qqqq";
-    	String name = "권지영";
-    	int test_score = 70;
-//    	ArrayList<UserDTO> list = dao.roomListAll(deptment);
-    	ArrayList<UserDTO> list = dao.roomListAll(deptment, name, test_score);
-//    	ArrayList<UserDTO> list = dao.roomListAll(null, name, test_score);
-//    	ArrayList<UserDTO> list = dao.roomListAll(deptment, name, null);
-//    	for (int i = 0; i < list.size(); i ++) {
-//    		UserDTO user =  list.get(i);
-//    		System.out.println(user.getDeptment());
-//    		System.out.println(user.getName());
-//    		System.out.println(user.getGpa());
-//    		System.out.println(user.getInterview_score());
-//    		System.out.println(user.getTest_score());
-//    		System.out.println(user.getDpa_yn());
-//    		System.out.println(user.getPass_yn());
-//    		System.out.println(user.getFail_reason());
-//    		System.out.println("--------------------------");
-//    	}
-    	//====================
-    	UserDTO user = new UserDTO();
-    	user.setDeptment("qqqq");
-    	user.setGpa(0);
-    	user.setName("권지영");
-    	dao.updateYN(user);
-    	
-    	//==================== 권지영 정대현 김희배 박서영
-    	String u1 = "권지영";
-    	String u2 = "정대현";
-    	String u3 = "김희배";
-    	String u4 = "박서영";
-    	String[] users = {u1, u2, u3, u4};
-//    	String[] users = {};
-//    	for (int i = 0; i < users.length; i++) {
-//    		System.out.println("name : " + users[i]);
-//    	}
-    	
-    	ArrayList<UserDTO> userss = dao.selectUser(users);
-    	for (int i = 0; i < userss.size(); i ++) {
-    		UserDTO usersss =  userss.get(i);
-    		System.out.println(usersss.getDeptment());
-    		System.out.println(usersss.getName());
-    		System.out.println(usersss.getGpa());
-    		System.out.println(usersss.getInterview_score());
-    		System.out.println(usersss.getTest_score());
-    		System.out.println(usersss.getDpa_yn());
-    		System.out.println(usersss.getPass_yn());
-    		System.out.println(usersss.getFail_reason());
-    		System.out.println("--------------------------" + i);
-    	}
-    	
-    }
-    */
-
     // 생성자에서 encode 배열을 만듬
     public chatServiceImpl(@Value("${encode.key}") String encodeKey) {
         // encodeKey 중복 character 제거와 uppercase 변환
@@ -100,18 +42,15 @@ public class chatServiceImpl implements chatService {
     @Override
     public ArrayList<RoomDTO> getRoomList() {
         ArrayList<RoomDTO> arr = dao.getRoomList();
-
         if (arr != null) {
             return arr;
         }
-
         return null;
     }
     
     @Override
 	public String isRoom(String roomName) {
     	String isRoom = dao.isRoom(roomName);
-    	
 		return isRoom;
 	}
     
@@ -167,7 +106,6 @@ public class chatServiceImpl implements chatService {
             }
         }
         System.out.println("인코딩된 msg : " + encodedMsg);
-
         return encodedMsg;
     }
 
@@ -190,7 +128,6 @@ public class chatServiceImpl implements chatService {
         // String to char[]
         nonOverlapCharArr = nonOverlapString.toCharArray();
         System.out.println(nonOverlapCharArr);
-
         // 알파벳 A-Y까지 array에 담기
         char lower = 'A';
         for (int i = 0; i < 25; i++) {
@@ -221,11 +158,11 @@ public class chatServiceImpl implements chatService {
                 if (addNonOverlapCharArr != (25 - alphabetArr.size())) {
                     encodeArr[i][j] = Character.toString(nonOverlapCharArr[cntAlphabetArr]);
                     addNonOverlapCharArr++;
-                    System.out.print(" if : " + Character.toString(nonOverlapCharArr[cntAlphabetArr]) + "\n");
+//                    System.out.print(" if : " + Character.toString(nonOverlapCharArr[cntAlphabetArr]) + "\n");
                     cntAlphabetArr++;
                 } else {
                     encodeArr[i][j] = alphabetArr.get(addAlphaArr);
-					System.out.print(" else : " + alphabetArr.get(addAlphaArr) + "\n");
+//					System.out.print(" else : " + alphabetArr.get(addAlphaArr) + "\n");
                     addAlphaArr++;
                 }
             }
@@ -267,7 +204,6 @@ public class chatServiceImpl implements chatService {
 	public String encode(String html, String method) {
 		// Jsoup 라이브러리를 사용하여 HTML 코드 파싱
 		Document doc = Jsoup.parse(html);
-		
 		// 특정 클래스를 가진 모든 요소 선택
 		Elements leftMsg = doc.select("div.message.left");
 		Elements rightMsg = doc.select("div.message.right");
@@ -313,9 +249,7 @@ public class chatServiceImpl implements chatService {
 				}
 			}
 		}
-		
 		String newHtml = doc.outerHtml();
-		
 		return newHtml;
 	}
 

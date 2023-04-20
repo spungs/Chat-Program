@@ -352,6 +352,18 @@ form {
 			req.setRequestHeader('Content-Type', 'application/json');
 			req.send(JSON.stringify(data));
 		}
+		
+		// enter키 누르면 chat을 request해버림
+// 		const inputMsg = document.getElementById('sendMsg');
+// 		const sendBtn = document.querySelector("input[type='button'][class='submitBtn']");
+			
+// 		inputMsg.addEventListener("keydown", function(e) {
+// 			alert("이벤트 들어왔냐?");
+// 		if (e.key === "Enter") {
+// 			alert("enter 들어왔냐?");
+// 			sendBtn.click();
+// 		}
+// 		});
 	</script>
 </body>
 </html>

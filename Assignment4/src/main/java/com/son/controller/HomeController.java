@@ -35,7 +35,7 @@ public class HomeController {
 	@GetMapping("roomList")
 	public String roomList(Model model, RedirectAttributes ra, HttpServletRequest req, 
 							String isDelete, String roomName) {
-		System.out.println("roomList getMapping");
+		System.err.println("roomList getMapping");
 		HttpSession session= req.getSession();
 		String isSession = (String) session.getAttribute("userName");
 		
@@ -45,7 +45,8 @@ public class HomeController {
 		}
 		
 		model.addAttribute("roomList", service.getRoomList());
-		System.out.println("isDelete : " + isDelete);
+		ra.addFlashAttribute("roomList", service.getRoomList());
+//		System.out.println("isDelete : " + isDelete);
 		
 		if (isDelete != null && !isDelete.equals("0")) {
 			model.addAttribute("roomName", roomName);
@@ -53,18 +54,17 @@ public class HomeController {
 		} else if (isDelete != null && isDelete.equals("0")) {
 			model.addAttribute("msg", "당신은 '" + roomName + "'의 오너가 아닙니다.");
 		}
-		
 		return "roomList";
 	}
 	
 	@PostMapping("roomList")
 	public String roomList(RedirectAttributes ra, Model model, HttpServletRequest req, 
 							String userName, String roomName, String isDelete) {
-		System.out.println("roomList postMapping");
+		System.err.println("roomList postMapping");
 		HttpSession session= req.getSession();
 		session.setAttribute("userName", userName);
 		
-		model.addAttribute("roomList", service.getRoomList());
+//		model.addAttribute("roomList", service.getRoomList());
 		
 		return "redirect:roomList";
 	}
