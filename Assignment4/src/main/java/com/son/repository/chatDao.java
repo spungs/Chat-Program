@@ -23,12 +23,6 @@ public interface chatDao {
 
 	public int deleteRoom(String roomName, String owner);
 
-	// mabatis seminar test
-	public ArrayList<UserDTO> roomListAll(
-			@Param("deptment") String deptment,
-			@Param("name") String name,
-			@Param("test_score") int test_score);
-	
 	public void updateYN(UserDTO user);
 
 	public ArrayList<UserDTO> selectUser(String[] users);

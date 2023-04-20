@@ -37,9 +37,9 @@ public class WebSocket {
 	public void handleOpen(Session s, EndpointConfig config) throws Exception {
 		HttpSession session = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 		String roomName = getRoomNameFromWebSocketUrl(s.getRequestURI().getQuery());
-		// test pring (ok)
-		System.out.println("HttpSession : " + session);
-		System.out.println("roomName : " + roomName);
+		// test print (ok)
+//		System.out.println("HttpSession : " + session);
+//		System.out.println("roomName : " + roomName);
 		
 		if (session == null) {
 			return;
@@ -103,6 +103,7 @@ public class WebSocket {
 			// msg encoding test(ok)
 			msg = chatService.encodeMsg(msg);
 		}
+		
 		for (Session client : clients) {
 			// map에 userName, roomName put
 //			clientsMap.put((String) clients.getUserProperties().get("userName"), roomName);
@@ -123,7 +124,6 @@ public class WebSocket {
 //			// session에
 //			sessions.getBasicRemote().sendText(msg);
 //		}
-		
 	}
 
 	@OnClose
