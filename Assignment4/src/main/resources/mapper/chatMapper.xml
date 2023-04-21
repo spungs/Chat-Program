@@ -17,3 +17,12 @@
 		roomName = #{roomName} AND owner = #{owner}
 	</delete>
 </mapper>
+
+<!-- chatList 테이블 CREATE and DROP Query-->
+<!-- 
+DROP TABLE if EXISTS chatList;
+CREATE TABLE chatList(
+roomName VARCHAR(50) PRIMARY KEY,
+owner VARCHAR(50)
+)
+ -->
