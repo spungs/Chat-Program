@@ -135,7 +135,7 @@ public class HomeController {
 		
 		// test print (OK)
 //		System.out.println("html: \n" + html);
-//		System.out.println(method);
+		System.out.println(method);
 		
 		String newHtml = service.encryptOrDecryptMsgs(html, method);
 		
